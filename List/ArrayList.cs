@@ -29,6 +29,12 @@ namespace List
             {
                 CreateEmpty();
             }
+            else if (arr.Length < 10)
+            {
+                RealLength = arr.Length;
+                _array = new int[10];
+                AddElementsToArray(arr, RealLength);
+            }
             else
             {
                 RealLength = arr.Length;
@@ -56,13 +62,10 @@ namespace List
         {
             if (RealLength == _array.Length)
             {
-                IncreaseSize();
+                IncreaseSize(_array.Length);
             }
 
-            for (int i = RealLength; i > 0; i--)
-            {
-                _array[i] = _array[i - 1];
-            }
+            MoveElementsToTheRight(1);
 
             _array[0] = val;
             RealLength++;
@@ -70,34 +73,44 @@ namespace List
 
         public void AddFirst(ArrayList list)
         {
-            int newLength = RealLength + list.RealLength;
-            int[] tmpArr = new int[newLength];
-
-            for (int i = list.RealLength; i < tmpArr.Length; i++)
+            if (list.RealLength == 1)
             {
-                tmpArr[i] = _array[i - list.RealLength];
+                AddFirst(list._array[0]);
             }
-
-            for (int i = 0; i < list.RealLength; i++)
+            else if (list.RealLength <= (_array.Length - RealLength))
             {
-                tmpArr[i] = list._array[i];
+                MoveElementsToTheRight(list.RealLength);
+                AddElementsToArray(list._array, list.RealLength);
+                RealLength += list.RealLength;
             }
-
-            while (tmpArr.Length >= _array.Length)
+            else
             {
-                IncreaseSize();
+                int newLength = RealLength + list.RealLength;
+
+                int[] tmpArr = new int[newLength];
+
+                for (int i = list.RealLength; i < tmpArr.Length; i++)
+                {
+                    tmpArr[i] = _array[i - list.RealLength];
+                }
+
+                for (int i = 0; i < list.RealLength; i++)
+                {
+                    tmpArr[i] = list._array[i];
+                }
+
+                IncreaseSize(newLength);
+
+                _array = tmpArr;
+                RealLength = newLength;
             }
-
-            _array = tmpArr;
-            RealLength = newLength;
-
         }
 
         public void AddLast(int val)
         {
             if (RealLength == _array.Length)
             {
-                IncreaseSize();
+                IncreaseSize(_array.Length);
             }
 
             _array[RealLength] = val;
@@ -108,11 +121,11 @@ namespace List
         {
             int newLength = RealLength + list.RealLength;
 
-            while (newLength >= _array.Length)
+            if (newLength >= _array.Length)
             {
-                IncreaseSize();
+                 IncreaseSize(newLength);
             }
-
+        
             for (int i = RealLength; i < newLength; i++)
             {
                 _array[i] = list._array[i - RealLength];
@@ -130,7 +143,7 @@ namespace List
 
             if (RealLength == _array.Length)
             {
-                IncreaseSize();
+                IncreaseSize(_array.Length);
             }
 
             if (idx == 0)
@@ -151,17 +164,25 @@ namespace List
 
         public void AddAt(int idx, ArrayList list)
         {
-            if (RealLength == 0)
+            if (idx >= RealLength || idx < 0)
             {
-                AddLast(list);
+                throw new IndexOutOfRangeException();
+            }
+            else if (list.RealLength <= (_array.Length - RealLength))
+            {
+                for (int i = RealLength - 1; i >= idx; i--)
+                {
+                    _array[i + list.RealLength] = _array[i];
+                }
+
+                for (int i = 0; i < list.RealLength; i++)
+                {
+                    _array[idx + i] = list._array[i]; 
+                }
+                RealLength += list.RealLength;
             }
             else
             {
-                if (idx >= RealLength || idx < 0)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
                 int newLength = RealLength + list.RealLength;
                 int[] tmpArr = new int[newLength];
 
@@ -183,11 +204,6 @@ namespace List
                     tmpArr[idx + i] = list._array[i];
                 }
 
-                while (_array.Length <= newLength)
-                {
-                    IncreaseSize();
-                }
-
                 _array = tmpArr;
                 RealLength = newLength;
             }
@@ -207,7 +223,7 @@ namespace List
         {
             if (RealLength == 0)
             {
-                throw new OverflowException();
+                throw new ArgumentException("Список пуст");
             }
 
             for (int i = 1; i < RealLength; i++)
@@ -217,7 +233,7 @@ namespace List
 
             RealLength--;
 
-            if (RealLength < _array.Length * 0.5)
+            if (RealLength < _array.Length * 2 / 3)
             {
                 DecreaseSize();
             }
@@ -227,12 +243,12 @@ namespace List
         {
             if (RealLength == 0)
             {
-                throw new OverflowException();
+                throw new ArgumentException("Список пуст");
             }
 
             RealLength--;
 
-            if (RealLength < _array.Length * 0.5)
+            if (RealLength < _array.Length * 2 / 3)
             {
                 DecreaseSize();
             }
@@ -252,7 +268,7 @@ namespace List
 
             RealLength--;
 
-            if (RealLength < _array.Length * 0.5)
+            if (RealLength < _array.Length * 2 / 3)
             {
                 DecreaseSize();
             }
@@ -262,12 +278,28 @@ namespace List
         {
             if (n > RealLength)
             {
-                throw new OverflowException();
+                throw new ArgumentException("Кол-во элементов массива меньше введенного n");
             }
-
-            for (int i = 0; i < n; i++)
+            else if (n == 1)
             {
                 RemoveFirst();
+            }
+            else
+            {
+                int[] tmpArr = new int[RealLength - n];
+
+                for (int i = 0; i < tmpArr.Length; i++)
+                {
+                    tmpArr[i] = _array[i + n];
+                }
+
+                _array = tmpArr;
+                RealLength -= n;
+
+                if (RealLength < _array.Length * 2 / 3)
+                {
+                    DecreaseSize();
+                }
             }
         }
 
@@ -275,12 +307,12 @@ namespace List
         {
             if (n > RealLength)
             {
-                throw new OverflowException();
+                throw new ArgumentException("Кол-во элементов массива меньше введенного n");
             }
 
             RealLength -= n;
 
-            if (RealLength < _array.Length * 0.5)
+            if (RealLength < _array.Length * 2 / 3)
             {
                 DecreaseSize();
             }
@@ -288,23 +320,50 @@ namespace List
 
         public void RemoveAtMultiple(int idx, int n)
         {
-            for (int i = 0; i < n; i++)
+            if (idx >= RealLength || idx < 0)
             {
-                RemoveAt(idx);
+                throw new IndexOutOfRangeException();
+            }
+            else if (n > RealLength)
+            {
+                throw new ArgumentException("Кол-во элементов массива меньше введенного n");
+            }
+            else if (n == 1 && idx == 0)
+            {
+                RemoveFirst();
+            }
+            else
+            {
+                int[] tmpArr = _array;
+
+                for (int i = idx; i < RealLength - n; i++)
+                {
+                    tmpArr[i] = _array[i + n];
+                }
+
+                RealLength -= n;
+
+                if (RealLength < _array.Length * 2 / 3)
+                {
+                    DecreaseSize();
+                }
             }
         }
 
         public int RemoveFirst(int val)
         {
-            for (int i = 0; i < RealLength; i++)
+            int idx = IndexOf(val);
+
+            if (idx >= 0)
             {
-                if (val == _array[i])
-                {
-                    RemoveAt(i);
-                    return i;
-                }
+                RemoveAt(idx);
+                return idx;
             }
-            return -1;
+            else
+            {
+                return idx;
+            }
+
         }
 
         public int RemoveAll(int val)
@@ -313,11 +372,22 @@ namespace List
 
             for (int i = 0; i < RealLength; i++)
             {
-                if (val == _array[i])
+                if (_array[i] == val)
                 {
-                    RemoveAt(i);
+                    for (int j = i; j < RealLength - 1; j++)
+                    {
+                        _array[j] = _array[j + 1];
+                    }
+
                     count++;
-                    i = -1;
+                    RealLength--;
+
+                    if (RealLength < _array.Length * 2 / 3)
+                    {
+                        DecreaseSize();
+                    }
+
+                    i--;
                 }
             }
             return count;
@@ -467,9 +537,16 @@ namespace List
             }
         }
 
-        private void IncreaseSize()
+        private void AddElementsToArray(int[] arr, int length)
         {
-            int newLength = (_array.Length * 3) / 2 + 1;
+            for (int i = 0; i < length; i++)
+            {
+                _array[i] = arr[i];
+            }
+        }
+        private void IncreaseSize(int length)
+        {
+            int newLength = (length * 3) / 2 + 1;
             int[] tmpArr = new int[newLength];
 
             for (int i = 0; i < _array.Length; i++)
@@ -491,7 +568,15 @@ namespace List
             _array = tmpArr;
         }
 
-        private void CreateEmpty()
+        private void MoveElementsToTheRight(int length)
+        {
+            for (int i = RealLength; i > 0; i--)
+            {
+                _array[i + length - 1] = _array[i - 1];
+            }
+        }
+
+    private void CreateEmpty()
         {
             RealLength = 0;
             _array = new int[10];

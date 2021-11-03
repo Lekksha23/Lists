@@ -43,7 +43,8 @@ namespace List.Tests
         [TestCase(new int[] { }, 42, new int[] { 42 })]
         [TestCase(new int[] { 8 }, 42, new int[] { 42, 8 })]
         [TestCase(new int[] { 8, 5, 3 }, 42, new int[] { 42, 8, 5, 3 })]
-        public void AddFirstTest(int[] array, int val, int[] expected)
+        [TestCase(new int[] { 8, 5, 3, 8, 5, 3, 8, 5, 3, 8, 5, 3 }, 42, new int[] { 42, 8, 5, 3, 8, 5, 3, 8, 5, 3, 8, 5, 3 })]
+        public void AddFirst1Test(int[] array, int val, int[] expected)
         {
             //arrange
             ArrayList list = new ArrayList(array);
@@ -59,7 +60,7 @@ namespace List.Tests
         [TestCase(new int[] { }, new int[] { 42 }, new int[] { 42 })]
         [TestCase(new int[] { 34, 34, 34 }, new int[] {20, 20, 20 }, new int[] { 20, 20, 20, 34, 34, 34 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9 })]
-        public void AddFirstTest(int[] arr1, int[] arr2, int[] expected)
+        public void AddFirst2Test(int[] arr1, int[] arr2, int[] expected)
         {
             //arrange
             ArrayList list1 = new ArrayList(arr1);
@@ -75,6 +76,7 @@ namespace List.Tests
         [TestCase(new int[] { }, 42, new int[] { 42 })]
         [TestCase(new int[] { 8 }, 42, new int[] { 8, 42 })]
         [TestCase(new int[] { 8, 5, 3 }, 42, new int[] { 8, 5, 3, 42 })]
+        [TestCase(new int[] { 8, 5, 3, 8, 5, 3, 8, 5, 3, 8, 5, 3 }, 42, new int[] { 8, 5, 3, 8, 5, 3, 8, 5, 3, 8, 5, 3, 42 })]
         public void AddLastTest(int[] array, int val, int[] expected)
         {
             //arrange
@@ -88,7 +90,7 @@ namespace List.Tests
         }
 
         [TestCase(new int[] { 42 }, new int[] { }, new int[] { 42 })]
-        [TestCase(new int[] { }, new int[] { 42 }, new int[] { 42 })]
+        [TestCase(new int[] { }, new int[] { 42, 42, 42 }, new int[] { 42, 42, 42 })]
         [TestCase(new int[] { 34, 34, 34 }, new int[] { 20, 20, 20 }, new int[] { 34, 34, 34, 20, 20, 20 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 })]
         public void AddLastTest(int[] arr1, int[] arr2, int[] expected)
@@ -104,7 +106,7 @@ namespace List.Tests
             Assert.AreEqual(expected, list1.ToArray());
         }
 
-        [TestCase(new int[] { 5, 6, 7}, 0, 42, new int[] { 42, 5, 6, 7 })]
+        [TestCase(new int[] { 5 }, 0, 42, new int[] { 42, 5 })]
         [TestCase(new int[] { 23, 23, 23, 23 }, 2, 42, new int[] { 23, 23, 42, 23, 23 })]
         [TestCase(new int[] { 8, 5, 3, 23 }, 3, 42, new int[] { 8, 5, 3, 42, 23 })]
         public void AddAtTest(int[] array, int idx, int val, int[] expected)
@@ -131,7 +133,6 @@ namespace List.Tests
         }
 
         [TestCase(0, new int[] { 42 }, new int[] { }, new int[] { 42 })]
-        [TestCase(0, new int[] { }, new int[] { 42, 42, 42 }, new int[] { 42, 42, 42 })]
         [TestCase(2, new int[] { 34, 34, 34 }, new int[] { 20, 20, 20 }, new int[] { 34, 34, 20, 20, 20, 34 })]
         [TestCase(3, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, new int[] { 1, 2, 3, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 5, 6, 7, 8, 9, })]
         public void AddAtTest(int idx, int[] arr1, int[] arr2, int[] expected)
@@ -147,6 +148,7 @@ namespace List.Tests
             Assert.AreEqual(expected, list1.ToArray());
         }
 
+        [TestCase(0, new int[] { }, new int[] { 42 })]
         [TestCase(-1, new int[] { 23, 42 }, new int[] { 23, 42, 3 })]
         [TestCase(2, new int[] { 23, 42 }, new int[] { 23, 42, 3 })]
         public void AddAtNegativeTest(int idx, int[] arr1, int[] arr2)
@@ -159,7 +161,7 @@ namespace List.Tests
             Assert.Throws(typeof(IndexOutOfRangeException), () => list1.AddAt(idx, list2));
         }
 
-        [TestCase(new int[] { 5, 6, 7 }, 0, 42, new int[] { 42, 6, 7 })]
+        [TestCase(new int[] { 5 }, 0, 42, new int[] { 42 })]
         [TestCase(new int[] { 23, 23, 23, 23 }, 2, 42, new int[] { 23, 23, 42, 23 })]
         [TestCase(new int[] { 8, 5, 3, 23 }, 3, 42, new int[] { 8, 5, 3, 42 })]
         public void SetTest(int[] array, int idx, int val, int[] expected)
@@ -206,7 +208,7 @@ namespace List.Tests
             ArrayList list = new ArrayList(array);
 
             //act, assert
-            Assert.Throws(typeof(OverflowException), () => list.RemoveFirst());
+            Assert.Throws(typeof(ArgumentException), () => list.RemoveFirst());
         }
 
         [TestCase(new int[] { 7 }, new int[] { })]
@@ -230,7 +232,7 @@ namespace List.Tests
             ArrayList list = new ArrayList(array);
 
             //act, assert
-            Assert.Throws(typeof(OverflowException), () => list.RemoveLast());
+            Assert.Throws(typeof(ArgumentException), () => list.RemoveLast());
         }
 
         [TestCase(0, new int[] { 7 }, new int[] { })]
@@ -281,7 +283,7 @@ namespace List.Tests
             ArrayList list = new ArrayList(array);
 
             //act, assert
-            Assert.Throws(typeof(OverflowException), () => list.RemoveFirstMultiple(n));
+            Assert.Throws(typeof(ArgumentException), () => list.RemoveFirstMultiple(n));
         }
 
         [TestCase(0, new int[] { 7 }, new int[] { 7 })]
@@ -306,7 +308,7 @@ namespace List.Tests
             ArrayList list = new ArrayList(array);
 
             //act, assert
-            Assert.Throws(typeof(OverflowException), () => list.RemoveLastMultiple(n));
+            Assert.Throws(typeof(ArgumentException), () => list.RemoveLastMultiple(n));
         }
 
         [TestCase(0, 0, new int[] { 7 }, new int[] { 7 })]
@@ -325,7 +327,7 @@ namespace List.Tests
             Assert.AreEqual(expected, list.ToArray());
         }
 
-        [TestCase(7, new int[] { 7, 23, 7 }, 0)]
+        [TestCase(7, new int[] { 7 }, 0)]
         [TestCase(15, new int[] { 7, 23, 42 }, -1)]
         [TestCase(54, new int[] { 5, 6, 7, 42, 54, 54, 54, 42 }, 4)]
         [TestCase(42, new int[] { 5, 6, 7, 13, 54, 12, 23, 42 }, 7)]
@@ -341,7 +343,7 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(7, new int[] { 7, 23, 7 }, 2)]
+        [TestCase(7, new int[] { 7 }, 1)]
         [TestCase(15, new int[] { 7, 23, 42 }, 0)]
         [TestCase(54, new int[] { 5, 6, 7, 42, 54, 54, 54, 54 }, 4)]
         [TestCase(42, new int[] { 42, 42, 42, 13, 54, 42, 23, 42 }, 5)]
@@ -357,7 +359,7 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(7, new int[] { 7, 23, 56 }, true)]
+        [TestCase(7, new int[] { 7 }, true)]
         [TestCase(15, new int[] { 7, 23, 42 }, false)]
         [TestCase(42, new int[] { 3, 7, 4, 13, 54, 7, 23, 42 }, true)]
         public void ContainsTest(int val, int[] array, bool expected)
@@ -372,7 +374,7 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(7, new int[] { 7, 23, 56 }, 0)]
+        [TestCase(7, new int[] { 7 }, 0)]
         [TestCase(15, new int[] { 7, 23, 42 }, -1)]
         [TestCase(42, new int[] { 3, 7, 4, 13, 54, 7, 23, 42 }, 7)]
         [TestCase(13, new int[] { 3, 7, 4, 13, 54, 7, 23, 42 }, 3)]
@@ -388,7 +390,7 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(new int[] { 7, 23, 56 }, 7)]
+        [TestCase(new int[] { 7 }, 7)]
         [TestCase(new int[] { -3, 7, 4, 13, 54, 7, 23, 42 }, -3)]
         public void GetFirstTest(int[] array, int expected)
         {
@@ -402,7 +404,7 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(new int[] { 7, 23, 56 }, 56)]
+        [TestCase(new int[] { 56 }, 56)]
         [TestCase(new int[] { -3, 7, 4, 13, 54, 7, 23, -42 }, -42)]
         public void GetLastTest(int[] array, int expected)
         {
@@ -416,7 +418,7 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(0, new int[] { 7, 23, 56 }, 7)]
+        [TestCase(0, new int[] { 7 }, 7)]
         [TestCase(7, new int[] { -3, 7, 4, 13, 54, 7, 23, -42 }, -42)]
         [TestCase(4, new int[] { -3, 7, 4, 13, 54, 7, 23, -42 }, 54)]
         public void GetTest(int idx, int[] array, int expected)
