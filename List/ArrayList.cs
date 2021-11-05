@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace List
 {
@@ -363,7 +359,6 @@ namespace List
             {
                 return idx;
             }
-
         }
 
         public int RemoveAll(int val)
@@ -419,17 +414,29 @@ namespace List
 
         public int GetFirst()
         {
+            if (RealLength == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
             return _array[0];
         }
 
         public int GetLast()
         {
+            if (RealLength == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
             return _array[RealLength - 1];
         }
 
         public int Get(int idx)
         {
             if (idx < 0 || idx >= RealLength)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (RealLength == 0)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -446,6 +453,10 @@ namespace List
 
         public int Max()
         {
+            if (RealLength == 0)
+            {
+                throw new ArgumentException("Список пуст");
+            }
             int max = _array[0];
 
             for (int i = 1; i < RealLength; i++)
@@ -460,6 +471,10 @@ namespace List
 
         public int Min()
         {
+            if (RealLength == 0)
+            {
+                throw new ArgumentException("Список пуст");
+            }
             int min = _array[0];
 
             for (int i = 1; i < RealLength; i++)
@@ -476,28 +491,36 @@ namespace List
         {
             int indexOfMax = 0;
 
-            for (int i = 0; i < RealLength; i++)
+            if (RealLength > 0)
             {
-                if (_array[indexOfMax] < _array[i])
+                for (int i = 0; i < RealLength; i++)
                 {
-                    indexOfMax = i;
+                    if (_array[indexOfMax] < _array[i])
+                    {
+                        indexOfMax = i;
+                    }
                 }
+                return indexOfMax;
             }
-            return indexOfMax;
+            else return -1;
         }
 
         public int IndexOfMin()
         {
             int indexOfMin = 0;
 
-            for (int i = 0; i < RealLength; i++)
+            if (RealLength > 0)
             {
-                if (_array[indexOfMin] > _array[i])
+                for (int i = 0; i < RealLength; i++)
                 {
-                    indexOfMin = i;
+                    if (_array[indexOfMin] > _array[i])
+                    {
+                        indexOfMin = i;
+                    }
                 }
+                return indexOfMin;
             }
-            return indexOfMin;
+            else return -1;
         }
 
         public void Sort()
@@ -513,9 +536,7 @@ namespace List
                         indexOfMin = j;
                     }
                 }
-                int tmp = _array[i];
-                _array[i] = _array[indexOfMin];
-                _array[indexOfMin] = tmp;
+                Swap(ref _array[i], ref _array[indexOfMin]); 
             }
         }
 
@@ -576,7 +597,7 @@ namespace List
             }
         }
 
-    private void CreateEmpty()
+        private void CreateEmpty()
         {
             RealLength = 0;
             _array = new int[10];

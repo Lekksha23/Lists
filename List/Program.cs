@@ -6,12 +6,41 @@ namespace List
     {
         static void Main(string[] args)
         {
-            ArrayList arr = new ArrayList();
-            ArrayList arr2 = new ArrayList(new int[] { 8 });
+            //LinkedList list = new LinkedList();
 
-            arr2.AddFirst(23);
+            //list.AddLast(23);
+            //list.AddLast(23);
+            //list.AddLast(23);
 
-            arr2.Set(1, 42);
+
+
+            //int[] res = list.ToArray();
+
+            //for (int i = 0; i < res.Length; i++)
+            //{
+            //    Console.Write($"{res[i]}\t");
+            //}
+            //Console.WriteLine();
+
+            //Console.WriteLine(list.GetLength());
+
+
+
+
+
+
+
+
+
+
+
+
+            //ArrayList arr = new ArrayList();
+            //ArrayList arr2 = new ArrayList(new int[] { 8 });
+
+            //arr2.AddFirst(23);
+
+            //arr2.Set(1, 42);
 
             //arr.AddLast(1);
             //arr.AddLast(2);
@@ -33,15 +62,15 @@ namespace List
 
             //arr2.AddLast(arr);
 
-            int[] res = arr2.ToArray();
+            //int[] res = arr2.ToArray();
 
-            for (int i = 0; i < res.Length; i++)
-            {
-                Console.Write($"{res[i]}\t");
-            }
-            Console.WriteLine();
+            //for (int i = 0; i < res.Length; i++)
+            //{
+            //    Console.Write($"{res[i]}\t");
+            //}
+            //Console.WriteLine();
 
-            Console.WriteLine(arr2.GetLength());
+            //Console.WriteLine(arr2.GetLength());
 
 
             //ArrayList myArray = new ArrayList();
