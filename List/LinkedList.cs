@@ -2,7 +2,7 @@
 
 namespace List
 {
-    public class LinkedList
+    public class LinkedList : ILoveList
     {
         private Node _head;
         private Node _tail;
@@ -76,11 +76,6 @@ namespace List
             if (list._head != null)
             {
                 list._tail.Next = _head;
-                _head = list._head;
-            }
-            else
-            {
-                list._head = _head;
                 _head = list._head;
             }
         }
@@ -159,6 +154,11 @@ namespace List
             {
                 throw new IndexOutOfRangeException();
             }
+            else if (idx == 0)
+            {
+                list._tail.Next = _head;
+                _head = list._head;
+            }
             else
             {
                 Node current = _head;
@@ -179,6 +179,12 @@ namespace List
             if (idx >= length || idx < 0)
             {
                 throw new IndexOutOfRangeException();
+            }
+            if (idx == 0 && length != 1)
+            {
+                Node node = new Node(val);
+                node.Next = _head.Next;
+                _head = node;
             }
             else if (length != 1)
             {
@@ -506,6 +512,7 @@ namespace List
             {
                 return _head.Val;
             }
+
             Node current = _head;
 
             for (int i = 0; i < idx; i++)
@@ -521,6 +528,7 @@ namespace List
             {
                 throw new NullReferenceException();
             }
+
             Node current = _head;
 
             while (current.Next != null)
@@ -632,19 +640,55 @@ namespace List
                 throw new NullReferenceException();
             }
 
-            for (Node i = _head; i.Next != null; i = i.Next)
-            {
-                for (Node j = i.Next; j != null; j = j.Next)
-                {
-                    if (i.Val > j.Val)
-                    {
-                        int tmp = i.Val;
-                        i.Val = j.Val;
-                        j.Val = tmp; 
-                        //Swap(i.Val, j.Val) --> Doesn't work((
-                    }
-                }
-            }
+            //Node current1 = _head;
+            //Node current2 = _head.Next;
+
+            //while (current1 != null)
+            //{
+            //    while (current2 != null)
+            //    {
+            //        if (current1.Val > current2.Next.Val)
+            //        {
+            //            if (current1 == _head)
+            //            {
+            //                if (current1.Next == current2)
+            //                {
+            //                    Node tmp = current2.Next;
+            //                    current2.Next = current1;
+            //                    current1.Next = tmp;
+            //                    _head = current2;
+            //                }
+            //                else
+            //                {
+            //                    Node tmp = current2.Next.Next;
+            //                    current2.Next.Next = _head.Next;
+            //                    _head = current2.Next;
+            //                    current1.Next = tmp;
+            //                    current2.Next = current1;
+            //                }
+            //            }
+            //        }
+            //           current2 = current2.Next;
+            //    }
+            //    if (current1 != _head)
+            //    {
+            //        current1 = current1.Next;
+            //    }
+            //}      
+
+            //for (Node i = _head; i.Next != null; i = i.Next)
+            //{
+            //    for (Node j = i.Next; j != null; j = j.Next)
+            //    {
+            //        if (i.Val > j.Val)
+            //        {
+            //            int tmp = i.Val;
+            //            i.Val = j.Val;
+            //            j.Val = tmp;
+
+            //        }
+            //    }
+            //}
         }
 
         public void SortDesc()
@@ -663,7 +707,7 @@ namespace List
                         int tmp = i.Val;
                         i.Val = j.Val;
                         j.Val = tmp;
-                        //Swap(i.Val, j.Val) --> Doesn't work((
+
                     }
                 }
             }
@@ -674,11 +718,11 @@ namespace List
             _head = null;
             _tail = null;
         }
-        private void Swap(int a, int b)
-        {
-            int tmp = a;
-            a = b;
-            b = tmp;
-        }
+        //private void Swap(Node a, Node b)
+        //{
+        //    Node tmp = a;
+        //    a = b;
+        //    b = tmp;
+        //}
     }
 }

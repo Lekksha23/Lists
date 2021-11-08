@@ -41,7 +41,7 @@ namespace List.Tests
         [TestCase(new int[] { 8 }, 42, new int[] { 42, 8 })]
         [TestCase(new int[] { 8, 5, 3 }, 42, new int[] { 42, 8, 5, 3 })]
         [TestCase(new int[] { 8, 5, 3, 8, 5, 3, 8, 5, 3, 8, 5, 3 }, 42, new int[] { 42, 8, 5, 3, 8, 5, 3, 8, 5, 3, 8, 5, 3 })]
-        public void AddFirst1Test(int[] array, int val, int[] expected)
+        public void AddFirstTest(int[] array, int val, int[] expected)
         {
             //arrange
             LinkedList list = new LinkedList(array);
@@ -57,7 +57,7 @@ namespace List.Tests
         [TestCase(new int[] { }, new int[] { 42 }, new int[] { 42 })]
         [TestCase(new int[] { 34, 34, 34 }, new int[] { 20, 20, 20 }, new int[] { 20, 20, 20, 34, 34, 34 })]
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9 })]
-        public void AddFirst2Test(int[] arr1, int[] arr2, int[] expected)
+        public void AddFirstTest(int[] arr1, int[] arr2, int[] expected)
         {
             //arrange
             LinkedList list1 = new LinkedList(arr1);
@@ -129,6 +129,8 @@ namespace List.Tests
             Assert.Throws(typeof(IndexOutOfRangeException), () => list.AddAt(idx, val));
         }
 
+        [TestCase(1, new int[] { 34, 34, 34 }, new int[] { 20 }, new int[] { 34, 20, 34, 34 })]
+        [TestCase(0, new int[] { 34 }, new int[] { 20, 20, 20 }, new int[] { 20, 20, 20, 34 })]
         [TestCase(2, new int[] { 34, 34, 34 }, new int[] { 20, 20, 20 }, new int[] { 34, 34, 20, 20, 20, 34 })]
         [TestCase(3, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }, new int[] { 1, 2, 3, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 5, 6, 7, 8, 9, })]
         public void AddAtTest(int idx, int[] arr1, int[] arr2, int[] expected)
@@ -169,7 +171,9 @@ namespace List.Tests
         }
 
         [TestCase(new int[] { 5 }, 0, 42, new int[] { 42 })]
-        [TestCase(new int[] { 23, 23, 23, 23 }, 2, 42, new int[] { 23, 23, 42, 23 })]
+        [TestCase(new int[] { 23, 23, 23, 23 }, 0, 42, new int[] { 42, 23, 23, 23 })]
+        [TestCase(new int[] { 3, 3, 3, 3, 3 }, 2, 42, new int[] { 3, 3, 42, 3, 3 })]
+        [TestCase(new int[] { 3, 3, 3, 3, 3 }, 1, 42, new int[] { 3, 42, 3, 3, 3 })]
         [TestCase(new int[] { 8, 5, 3, 23 }, 3, 42, new int[] { 8, 5, 3, 42 })]
         public void SetTest(int[] array, int idx, int val, int[] expected)
         {
@@ -609,9 +613,10 @@ namespace List.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase(new int[] { 0 }, new int[] { 0 })]
-        [TestCase(new int[] { 3, 1, 4, 2 }, new int[] { 1, 2, 3, 4 })]
-        [TestCase(new int[] { 5, 5, 5, 5 }, new int[] { 5, 5, 5, 5 })]
+        //[TestCase(new int[] { 0 }, new int[] { 0 })]
+        [TestCase(new int[] { 3, 4, 4, 2, 4 }, new int[] { 2, 4, 4, 3, 4 })]
+        [TestCase(new int[] { 3, 2, 4, 4, 4 }, new int[] { 2, 3, 4, 4, 4 })]
+        //[TestCase(new int[] { 5, 5, 5, 5 }, new int[] { 5, 5, 5, 5 })]
         public void SortTest(int[] array, int[] expected)
         {
             //arrange
