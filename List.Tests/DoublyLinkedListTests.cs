@@ -615,11 +615,13 @@ namespace List.Tests
 
             [TestCase(new int[] { 0 }, new int[] { 0 })]
             [TestCase(new int[] { 3, 1, 4, 2 }, new int[] { 1, 2, 3, 4 })]
-            [TestCase(new int[] { 5, 5, 5, 5 }, new int[] { 5, 5, 5, 5 })]
+            [TestCase(new int[] { 3, 1 }, new int[] { 1, 3 })]
+            [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 })]
+            [TestCase(new int[] { 1, 2, 3, 4, 8, 7, 6, 5 }, new int[] { 1, 2, 3, 4, 5, 6, 7, 8 })]
             public void SortTest(int[] array, int[] expected)
             {
                 //arrange
-                LinkedList list = new LinkedList(array);
+                DoublyLinkedList list = new DoublyLinkedList(array);
 
                 //act
                 list.Sort();
@@ -633,7 +635,7 @@ namespace List.Tests
             public void SortNegativeTest(int[] array)
             {
                 //arrange
-                LinkedList list = new LinkedList(array);
+                DoublyLinkedList list = new DoublyLinkedList(array);
 
                 //act, assert
                 Assert.Throws(typeof(NullReferenceException), () => list.Sort());
@@ -641,11 +643,13 @@ namespace List.Tests
 
             [TestCase(new int[] { 0 }, new int[] { 0 })]
             [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]
-            [TestCase(new int[] { 5, 5, 5, 5 }, new int[] { 5, 5, 5, 5 })]
+            [TestCase(new int[] { 1, 3 }, new int[] { 3, 1 })]
+            [TestCase(new int[] { 4, 3, 2, 1 }, new int[]{ 4, 3, 2, 1 })]
+            [TestCase(new int[] { 4, 3, 2, 1, 8, 7, 6, 5 }, new int[] { 8, 7, 6, 5, 4, 3, 2, 1 })]
             public void SortDescTest(int[] array, int[] expected)
             {
                 //arrange
-                LinkedList list = new LinkedList(array);
+                DoublyLinkedList list = new DoublyLinkedList(array);
 
                 //act
                 list.SortDesc();
@@ -659,7 +663,7 @@ namespace List.Tests
             public void SortDescNegativeTest(int[] array)
             {
                 //arrange
-                LinkedList list = new LinkedList(array);
+                DoublyLinkedList list = new DoublyLinkedList(array);
 
                 //act, assert
                 Assert.Throws(typeof(NullReferenceException), () => list.SortDesc());

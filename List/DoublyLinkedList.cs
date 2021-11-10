@@ -742,60 +742,79 @@ namespace List
             {
                 throw new NullReferenceException();
             }
+            int length = GetLength(); //sorry for this. I know it's bad((
+            DoublyNode current = _head;
+            DoublyNode prev = _head;
 
-            //Node current1 = _head;
-            //Node current2 = _head.Next;
+            for (int i = 1; i < length; i++)
+            {
+                for (int j = 0; j < length - i; j++)
+                {
+                    if(current.Val > current.Next.Val)
+                    {
+                        if (current == _head)
+                        {
+                            SwapConsideringHead(ref current, ref prev);
+                        }
+                        else
+                        {
+                            Swap(ref current, ref prev);
 
-            //while (current1 != null)
-            //{
-            //    while (current2 != null)
-            //    {
-            //        if (current1.Val > current2.Next.Val)
-            //        {
-            //            if (current1 == _head)
-            //            {
-            //                if (current1.Next == current2)
-            //                {
-            //                    Node tmp = current2.Next;
-            //                    current2.Next = current1;
-            //                    current1.Next = tmp;
-            //                    _head = current2;
-            //                }
-            //                else
-            //                {
-            //                    Node tmp = current2.Next.Next;
-            //                    current2.Next.Next = _head.Next;
-            //                    _head = current2.Next;
-            //                    current1.Next = tmp;
-            //                    current2.Next = current1;
-            //                }
-            //            }
-            //        }
-            //           current2 = current2.Next;
-            //    }
-            //    if (current1 != _head)
-            //    {
-            //        current1 = current1.Next;
-            //    }
-            //}      
-
-            //for (Node i = _head; i.Next != null; i = i.Next)
-            //{
-            //    for (Node j = i.Next; j != null; j = j.Next)
-            //    {
-            //        if (i.Val > j.Val)
-            //        {
-            //            int tmp = i.Val;
-            //            i.Val = j.Val;
-            //            j.Val = tmp;
-
-            //        }
-            //    }
-            //}
+                            if (current.Next == _tail)
+                            {
+                                _tail = current;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        prev = current;
+                        current = current.Next;
+                    }
+                }
+                prev = _head;
+                current = _head;
+            }
         }
         public void SortDesc()
         {
-            throw new NotImplementedException();
+            if (_head is null)
+            {
+                throw new NullReferenceException();
+            }
+            int length = GetLength();
+            DoublyNode current = _head;
+            DoublyNode prev = _head;
+
+            for (int i = 1; i < length; i++)
+            {
+                for (int j = 0; j < length - i; j++)
+                {
+                    if (current.Val < current.Next.Val)
+                    {
+                        if (current == _head)
+                        {
+                            SwapConsideringHead(ref current, ref prev);
+                        }
+                        else
+                        {
+                            Swap(ref current, ref prev);
+
+                            if (current.Next == _tail)
+                            {
+                                _tail = current;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        prev = current;
+                        current = current.Next;
+                    }
+                }
+                prev = _head;
+                current = _head;
+            }
         }
 
         private void CreateEmptyList()
@@ -818,5 +837,25 @@ namespace List
             node.Next = current.Next;
             current.Next = node;
         }
+
+        private void Swap(ref DoublyNode current, ref DoublyNode prev)
+        {
+            DoublyNode tmp = current.Next.Next;
+            current.Next.Next = current;
+            prev.Next = current.Next;
+            current.Next = tmp;
+            prev = prev.Next;
+        }
+
+        private void SwapConsideringHead(ref DoublyNode current, ref DoublyNode prev)
+        {
+            DoublyNode tmp = current.Next.Next;
+            current.Next.Next = current;
+            prev.Next = current.Next;
+            _head = current.Next;
+            current.Next = tmp;
+            prev = _head;
+        }
+
     }
 }
